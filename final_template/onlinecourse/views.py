@@ -123,17 +123,14 @@ def submit(request, course_id):
             value = request.POST[key]
             choice_id = int(value)
             submitted_anwsers.append(choice_id)
-    return submitted_anwsers
+    
      
     for choice in submitted_anwsers:
-        submission.choice = choice
-        submission.save()
+        submission_choices = Submission_Choices.objects.create(submission=submission, choice_id=choice)
+        submission_choices.save()
 
-    return HttpResponseRedirect(reverse(viewname='onlinecourse:show_exam_result', args=(submission_id)))    
-
-
-
-
+    return redirect('onlinecourse:show_exam_result', args=(submission_id))
+        
 # <HINT> Create an exam result view to check if learner passed exam and show their question results and result for each question,
 # you may implement it based on the following logic:
         # Get course and submission based on their ids
@@ -141,6 +138,18 @@ def submit(request, course_id):
         # For each selected choice, check if it is a correct answer or not
         # Calculate the total score
 #def show_exam_result(request, course_id, submission_id):
+def show_exam_result(request, course_id, submission_id):
+    context = {}
+    course = get_object_or_404(Course, pk=course_id)
+    submission = get_object_or_404(Course, pk=submission_id)
+   
+    for submission_choices in submission:
+       if Choice.is_correct:
+           total_score=total_score + Question.grade
 
+    context['course'] = "course.name"
+    context['selected_ids'] = "submission_choices"
+    context['grade'] = "total_score"
+    return render(request, 'onlinecourse/exam_result_bootstrap.html', context)       
 
 
