@@ -126,8 +126,8 @@ def submit(request, course_id):
     
      
     for choice in submitted_anwsers:
-        submission_choices = Submission_Choices.objects.create(submission=submission, choice_id=choice)
-        submission_choices.save()
+        submission = Submission_Choices.objects.create(submission=submission, choice=choice)
+        submission.save()
 
     return redirect('onlinecourse:show_exam_result', args=(submission_id))
         

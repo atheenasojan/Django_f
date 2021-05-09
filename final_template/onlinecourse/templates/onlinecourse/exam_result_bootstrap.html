@@ -39,6 +39,7 @@
     {% if grade > 80 %}
     <div class="alert alert-success">
        <!--HINT Display passed info -->
+       <h2>Congratulations,{{ user.first_name }}! You have passed the exam and completed the course with {grade}/100 </h2>
     </div>
         {% else %}
         <div class="alert alert-danger">
